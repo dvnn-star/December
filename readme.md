@@ -17,3 +17,24 @@ Beberapa program yang digunakan adalah:
    ```
 5. Setelah container berjalan, buka browser anda dan akses `http://localhost:8000` untuk melihat aplikasi Laravel yang sedang berjalan.
 6. Jangan lupa untuk mengatur file `.env` sesuai dengan kebutuhan anda, terutama bagian database.
+
+
+step windows : 
+# 1. Clone repositori
+git clone <url-repo-kamu>
+cd laravel-docker
+
+# 2. Masuk ke folder Laravel dan siapkan file .env
+cd laravel_app
+cp .env.example .env
+
+docker compose up -d
+
+# Instal library PHP
+docker compose exec app composer install
+
+# Generate security key
+docker compose exec app php artisan key:generate
+
+# Jalankan migrasi database
+docker compose exec app php artisan migrate
