@@ -1,0 +1,8 @@
+/mysql_data
+/laravel_app/vendor
+/laravel_app/.env
+/laravel_app/storage/*.key
+/laravel_app/storage/framework/cache/data/*
+/laravel_app/storage/framework/sessions/*
+/laravel_app/storage/framework/views/*
+/laravel_app/storage/logs/*

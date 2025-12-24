@@ -4,6 +4,7 @@ services:
       context: .
       dockerfile: docker/php/Dockerfile
     container_name: laravel_app
+    restart: unless-stopped
     volumes:
       - ./laravel_app:/var/www/html
     ports:
@@ -11,17 +12,18 @@ services:
     environment:
       DB_CONNECTION: mysql
       DB_HOST: mysql
+      DB_PORT: 3306
       DB_DATABASE: laravel_db
       DB_USERNAME: laravel
       DB_PASSWORD: secret
     depends_on:
-      - mysql
-      - phpmyadmin
+      mysql:
+        condition: service_healthy # Menunggu MySQL benar-benar siap
     networks:
       - laravel
 
   mysql:
-    image: mysql:8
+    image: mysql:8.4 # Gunakan versi spesifik agar stabil
     container_name: laravel_mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -32,8 +34,13 @@ services:
       - "3307:3306"
     volumes:
       - ./mysql_data:/var/lib/mysql
+    healthcheck: # Memastikan MySQL siap sebelum App jalan
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 5
     networks:
       - laravel
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: laravel_phpmyadmin
@@ -42,14 +49,17 @@ services:
       - "8001:80"
     environment:
       PMA_HOST: mysql
-      PMA_PORT: 3306
-      MYSQL_ROOT_PASSWORD: root
+      PMA_USER: root
+      PMA_PASSWORD: root
     depends_on:
       - mysql
     networks:
       - laravel
+
 networks:
   laravel:
+    driver: bridge
 
+# Definisikan volume agar data MySQL tidak hilang
 volumes:
-  mysql-data:
+  mysql_data:
