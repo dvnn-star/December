@@ -18,12 +18,12 @@ services:
       DB_PASSWORD: secret
     depends_on:
       mysql:
-        condition: service_healthy # Menunggu MySQL benar-benar siap
+        condition: service_healthy
     networks:
       - laravel
 
   mysql:
-    image: mysql:8.4 # Gunakan versi spesifik agar stabil
+    image: mysql:8.4
     container_name: laravel_mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -33,9 +33,9 @@ services:
     ports:
       - "3307:3306"
     volumes:
-      - ./mysql_data:/var/lib/mysql
-    healthcheck: # Memastikan MySQL siap sebelum App jalan
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      - mysql_data:/var/lib/mysql # UBAH INI: Hilangkan ./ agar menjadi named volume
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"] # Tambahkan -proot jika perlu
       timeout: 5s
       retries: 5
     networks:
@@ -60,6 +60,5 @@ networks:
   laravel:
     driver: bridge
 
-# Definisikan volume agar data MySQL tidak hilang
 volumes:
-  mysql_data:
+  mysql_data: # Ini akan dibuat otomatis oleh Docker di area yang aman bagi Linux
