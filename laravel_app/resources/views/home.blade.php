@@ -888,43 +888,7 @@
             }
         });
 
-        // Script cart & loyalty Anda yang lama (tetap copy-paste di sini)
-        let carts = {
-            food: [],
-            drink: []
-        };
 
-        function addToCart(type, item, price) {
-            carts[type].push({
-                item,
-                price
-            });
-            updateCart(type);
-        }
-
-        function updateCart(type) {
-            const cartList = document.getElementById(`${type}-cart`);
-            cartList.innerHTML = '';
-            carts[type].forEach(i => {
-                const li = document.createElement('li');
-                li.textContent = `${i.item} - $${i.price}`;
-                cartList.appendChild(li);
-            });
-        }
-
-        function purchase(type) {
-            if (carts[type].length > 0) {
-                fetch('{{ route('purchase') }}', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    }
-                });
-                carts[type] = [];
-                updateCart(type);
-                alert('Purchase successful!');
-            }
-        }
 
         function calculatePoints() {
             const amount = parseFloat(document.getElementById('purchaseAmount').value);
