@@ -7,14 +7,13 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/home', function () {
+Route::get('/', function () {
     return view('home');
 })->name('halaman.home');
+
 
 Route::get('/menu', function () {
     return view('menu');
 })->name('halaman.menu');
-
-
 
 

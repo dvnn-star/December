@@ -21,5 +21,21 @@ class MenuSeeder extends Seeder
             'type' => 'foods',
             'is_available' => true,
         ]);
+        Menu::create([
+            'image_path' => 'nasipadang.jpg',
+            'name' => 'Thai Tea',
+            'description' => 'Classic Italian pasta with rich meat sauce.',
+            'price' => 12.500,
+            'type' => 'drinks',
+            'is_available' => true,
+        ]);
+        Menu::create([
+            'image_path' => 'nasipadang.jpg',
+            'name' => 'Thai Tea',
+            'description' => 'Classic Italian pasta with rich meat sauce.',
+            'price' => 12.500,
+            'type' => 'desserts',
+            'is_available' => true,
+        ]);
     }
 }
